@@ -10,7 +10,6 @@ int menu() {
     printf("3) Ordenação via Radix Sort\n");
     printf("4) Ordenação via Merge Sort\n");
     printf("5) Sair\n");
-    printf("6) Visualizar lista/vetor\n");
     printf("operação: ");
     scanf("%d", &opcao);
 
@@ -180,53 +179,6 @@ void radixSortVetor(vetorAuxiliar *vet[], int n){
     }
 }
 
-
-//contato *radixSort(contato *lst, int n){
-//    int i, exp = 1, m = 0, bucket[n], temp[n];
-//    contato *aux, *fnl;
-//
-//    aux=lst;
-//    while(aux){
-//        fnl = aux;
-//        aux = aux->next;
-//    }
-//
-//	for(aux=lst; aux!=NULL; aux = aux->next){
-//		if(aux->val > m)
-//			m = aux->val;
-//	}
-//
-//	while((m/exp) > 0){
-//        aux = lst;
-//
-//        for (i = 0; i < n; i++)
-//			bucket[i] = 0;
-//
-//		for(i = 0; i < n; i++){
-//			bucket[(aux->val / exp) % 10]++;
-//                        aux = aux->next;
-//		}
-//
-//		for(i = 1; i < n; i++)
-//			bucket[i] += bucket[i-1];
-//        aux = fnl;
-//		for(i = (n - 1); i >= 0; i--){
-//			temp[--bucket[(aux->val / exp) % 10]] = aux->val;
-//            aux = aux->prev;
-//		}
-//
-//        aux = lst;
-//		for(i = 0; i < n; i++){
-//			aux->val = temp[i];
-//            aux = aux->next;
-//        }
-//
-//		exp *= 10;
-//	}
-//
-//    return lst;
-//}
-
 void mostraVetor(contatoVetor *prnt[], int n) {
     int i=0;
 
@@ -252,6 +204,59 @@ void mostraVetorAux(vetorAuxiliar *prnt[], int n) {
     printf("\n");
     }
     printf("\n");
+}
+
+void merge(vetorAuxiliar *vet[], int primeira, int meio, int ultima) {
+    int i, j, k;
+    vetorAuxiliar *vetB[ultima];
+
+    for(i=0; i<ultima; i++) {
+        vetB[i] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+        vetB[i]->nome = vet[i]->nome;
+        strcpy(vetB[i]->fone, vet[i]->fone);
+    }
+    i = k = primeira;
+    j = meio+1;
+    while(i <= meio && j <= ultima){
+        if(vet[i]->nome <= vet[j]->nome) {
+            vetB[k] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+            vetB[k]->nome = vet[i]->nome;
+            strcpy(vetB[k++]->fone, vet[i++]->fone);
+        } else {
+            vetB[k] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+            vetB[k]->nome = vet[j]->nome;
+            strcpy(vetB[k++]->fone, vet[j++]->fone);
+        }
+    }
+    while(i <= meio) {
+        vetB[k] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+        vetB[k]->nome = vet[i]->nome;
+        strcpy(vetB[k++]->fone, vet[i++]->fone);
+    }
+    while(j <= ultima) {
+        vetB[k] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+        vetB[k]->nome = vet[j]->nome;
+        strcpy(vetB[k++]->fone, vet[j++]->fone);
+    }
+    for(i=primeira; i<=ultima; i++) {
+//        vetB[i] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+        vet[i]->nome = vetB[i]->nome;
+        strcpy(vet[i]->fone, vetB[i]->fone);
+    }
+//    free(vetB);
+}
+
+
+void mergeSort(vetorAuxiliar *vet[], int primeira, int ultima) {
+    int meio;
+    printf("primeira: %d\n", primeira);
+    printf("ultima: %d\n", ultima);
+    if(primeira<ultima){
+        meio = (primeira+ultima)/2;
+        mergeSort(vet, primeira, meio);
+        mergeSort(vet, meio+1, ultima);
+        merge(vet, primeira, meio, ultima);
+    }
 }
 
 char *criaFone() {

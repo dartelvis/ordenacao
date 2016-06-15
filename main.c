@@ -8,13 +8,16 @@
 int max;
 int main()
 {
-    int opcao, opcaoSubMenu;
+    int opcao, opcaoSubMenu, tempo;
     contatoVetor *vetor[maxVetor], *vetorOrdenado[maxVetor];
     vetorAuxiliar *vetorAux[maxVetor];
     contato *lista, *listaOrdenada;
     vetor[0] = NULL;
     lista = NULL;
-//    listaOrdenada = NULL;
+    time_t tempoInicio, tempoFim;
+    srand(time(NULL));
+
+
     do {
         opcao = menu();
         switch (opcao) {
@@ -29,11 +32,11 @@ int main()
                     printf("Numero de contatos: ");
                     scanf("%d", &max);
 
-                    if (max < 0) {
+                    if (max < 10) {
                         system("clear");
-                        printf("Favor digite um numero maior que zero!\n\n");
+                        printf("Favor digite um numero maior que 9!\n\n");
                     }
-                } while(max < 0);
+                } while(max < 10);
                 lista = criaLista(lista, max);
                 printf("Lista criada corretamente!\n\n");
                 break;
@@ -62,6 +65,7 @@ int main()
                                 break;
                             }
                             listaOrdenada = NULL;
+                            tempoInicio = time(NULL);
                             getVetorAuxiliarLista(lista, vetorAux, max);
                             radixSortVetor(vetorAux, max);
                             listaOrdenada = montaListaOrdenada(vetorAux, listaOrdenada, max);
@@ -70,6 +74,9 @@ int main()
                             mostraLista(lista);
                             printf("\n=== Lista Ordenado ===\n\n");
                             mostraLista(listaOrdenada);
+                            tempoFim = time(NULL);
+                            tempo = difftime(tempoFim, tempoInicio);
+                            printf("\n\n%d segundos\n\n", tempo);
                             break;
                         case 2:
                             if (vetor[0] == NULL) {
@@ -77,6 +84,7 @@ int main()
                                 printf("Vetor ainda nao criado!\n\n");
                                 break;
                             }
+                            tempoInicio = time(NULL);
                             getVetorAuxiliar(vetor, vetorAux, maxVetor);
                             radixSortVetor(vetorAux, maxVetor);
                             montaVetorOrdenado(vetorAux, vetorOrdenado, maxVetor);
@@ -85,6 +93,9 @@ int main()
                             mostraVetor(vetor, maxVetor);
                             printf("\n=== Vetor Ordenado ===\n\n");
                             mostraVetor(vetorOrdenado, maxVetor);
+                            tempoFim = time(NULL);
+                            tempo = difftime(tempoFim, tempoInicio);
+                            printf("\n\n%d segundos\n\n", tempo);
                             break;
                         default:
                             system("clear");
@@ -94,18 +105,63 @@ int main()
                 } while(opcaoSubMenu > 2 || opcaoSubMenu < 1);
                 break;
             case 4:
-                printf("4\n\n");
+                system("clear");
+                do {
+                    printf("Qual opção deseja ordenar?\n");
+                    printf("1) Lista\n");
+                    printf("2) Vetor\n");
+                    printf("operação: ");
+                    scanf("%d", &opcaoSubMenu);
+                    switch(opcaoSubMenu) {
+                        case 1:
+                            if (lista == NULL) {
+                                system("clear");
+                                printf("Lista ainda nao criada!\n\n");
+                                break;
+                            }
+                            listaOrdenada = NULL;
+                            tempoInicio = time(NULL);
+                            getVetorAuxiliarLista(lista, vetorAux, max);
+                            mergeSort(vetorAux, 0, max);
+                            listaOrdenada = montaListaOrdenada(vetorAux, listaOrdenada, max);
+                            system("clear");
+                            printf("=== Lista Original ===\n\n");
+                            mostraLista(lista);
+                            printf("\n=== Lista Ordenado ===\n\n");
+                            mostraLista(listaOrdenada);
+                            tempoFim = time(NULL);
+                            tempo = difftime(tempoFim, tempoInicio);
+                            printf("\n\n%d segundos\n\n", tempo);
+                            break;
+                        case 2:
+                            if (vetor[0] == NULL) {
+                                system("clear");
+                                printf("Vetor ainda nao criado!\n\n");
+                                break;
+                            }
+                            tempoInicio = time(NULL);
+                            getVetorAuxiliar(vetor, vetorAux, maxVetor);
+                            mergeSort(vetorAux, 0, maxVetor);
+                            montaVetorOrdenado(vetorAux, vetorOrdenado, maxVetor);
+                            system("clear");
+                            printf("=== Vetor Original ===\n\n");
+                            mostraVetor(vetor, maxVetor);
+                            printf("\n=== Vetor Ordenado ===\n\n");
+                            mostraVetor(vetorOrdenado, maxVetor);
+                            tempoFim = time(NULL);
+                            tempo = difftime(tempoFim, tempoInicio);
+                            printf("\n\n%d segundos\n\n", tempo);
+                            break;
+                        default:
+                            system("clear");
+                            printf("Opção Invalida!\n\n");
+                            break;
+                    }
+                } while(opcaoSubMenu > 2 || opcaoSubMenu < 1);
                 break;
             case 5:
                 system("clear");
                 printf("Obrigado...\n\n");
-                break;
-            case 6:
-                system("clear");
-                printf("=== Vetor Original ===\n\n");
-                mostraVetor(vetor, maxVetor);
-                printf("\n\n=== Vetor Ordenado ===\n\n");
-                mostraVetor(vetorOrdenado, maxVetor);
                 break;
             default:
                 system("clear");
@@ -113,29 +169,6 @@ int main()
                 break;
         }
     } while(opcao != 5);
-
-    return 0;
-
-//    srand(time(NULL));
-//    int t;
-//    node *lst;
-//    time_t tI, tF;
-//
-//    tI = time(NULL);
-//
-//    lst=NULL;
-//
-//    lst = criaLista(lst, max);
-//
-//    mostraLista(lst);
-//
-//    lst = radixSort(lst, max);
-//
-//    mostraLista(lst);
-//
-//    tF = time(NULL);
-//    t = difftime(tF, tI);
-//    printf("\n\n%d seg", t);
 
     return 0;
 }
