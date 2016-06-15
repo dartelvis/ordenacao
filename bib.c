@@ -18,7 +18,7 @@ int menu() {
 }
 
 contato *criaLista(contato *inc, int n){
-    char id[3], n1[8];
+    char id[3];
     int i;
     contato *fnl, *nv;
 
@@ -84,6 +84,30 @@ void montaVetorOrdenado(vetorAuxiliar *vetorAux[], contatoVetor *vetorOrdenado[]
     }
 }
 
+contato *montaListaOrdenada(vetorAuxiliar *vetorAux[], contato *listaOrdenada, int n) {
+    char id[3];
+    int i;
+    contato *fnl, *nv;
+
+    for(i=0; i<n; i++){
+        nv = (contato *)malloc(sizeof(contato));
+        strcpy(nv->fone, vetorAux[i]->fone);
+        strcpy(nv->nome, name);
+        sprintf(id,"%d",vetorAux[i]->nome);
+        strcat(nv->nome, id);
+        if(!listaOrdenada){
+            listaOrdenada = nv;
+            nv->prev = NULL;
+        }else{
+            fnl->next = nv;
+            nv->prev = fnl;
+        }
+        nv->next = NULL;
+        fnl = nv;
+    }
+    return listaOrdenada;
+}
+
 void getVetorAuxiliar(contatoVetor *vetor[], vetorAuxiliar *vetorAux[], int n) {
     int i;
     for (i=0; i<n; i++) {
@@ -93,22 +117,33 @@ void getVetorAuxiliar(contatoVetor *vetor[], vetorAuxiliar *vetorAux[], int n) {
     }
 }
 
+void getVetorAuxiliarLista(contato *lista, vetorAuxiliar *vetorAux[], int n) {
+    int i;
+    contato *listaAux = lista;
+    for (i=0; i<n; i++) {
+        vetorAux[i] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
+        vetorAux[i]->nome = soNumeros(listaAux->nome);
+        strcpy(vetorAux[i]->fone, listaAux->fone);
+        listaAux = listaAux->next;
+    }
+}
+
 int soNumeros(char * string)
 {
-        int chars=0; //variável onde ficam armazenados os dígitos extraídos
-        int i;
+    int chars=0; //variável onde ficam armazenados os dígitos extraídos
+    int i;
 
-        for(i=0; string[i]!='\0'; i++) //percorrer todos os caracteres
+    for(i=0; string[i]!='\0'; i++) //percorrer todos os caracteres
+    {
+        if(isdigit(string[i])) //verificar se o carácter é numérico
         {
-                if(isdigit(string[i])) //verificar se o carácter é numérico
-                {
-                        chars += (int)(string[i])-'0'; //forma "artesanal" de converter o carácter para inteiro
-                        chars *= 10;
-                }
+            chars += (int)(string[i])-'0'; //forma "artesanal" de converter o carácter para inteiro
+            chars *= 10;
         }
-        chars /= 10;
+    }
+    chars /= 10;
 
-        return chars;
+    return chars;
 }
 
 
@@ -197,6 +232,7 @@ void mostraVetor(contatoVetor *prnt[], int n) {
 
     printf("\n");
     for(i=0; i<n; i++){
+        printf("--------------------\n");
         printf("Nome: %s\n", prnt[i]->nome);
         printf("Fone: %s\n", prnt[i]->fone);
 

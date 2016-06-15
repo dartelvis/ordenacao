@@ -1,4 +1,4 @@
-#define max
+
 #define maxVetor 40
 #define name "Fulano "
 
@@ -26,6 +26,10 @@ int menu();
 void mostraLista(contato *lst);
 
 void montaVetorOrdenado(vetorAuxiliar *vetorAux[], contatoVetor *vetorOrdenado[], int n);
+
+contato *montaListaOrdenada(vetorAuxiliar *vetorAux[], contato *listaOrdenada, int n);
+
+void getVetorAuxiliarLista(contato *lista, vetorAuxiliar *vetorAux[], int n);
 
 contato *criaLista(contato *inc, int n);
 
