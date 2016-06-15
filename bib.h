@@ -1,30 +1,46 @@
+#define max
 #define maxVetor 40
 #define name "Fulano "
 
-typedef struct _node{
-    int val;
-    struct _node *next;
-    struct _node *prev;
-} node;
+typedef struct _contato{
+    char nome[40];
+    char fone[30];
+    struct _contato *next;
+    struct _contato *prev;
+} contato;
+
 
 typedef struct _contatoVetor{
     char nome[40];
     char fone[30];
 } contatoVetor;
 
+typedef struct _vetorAuxiliar{
+    int nome;
+    char fone[30];
+} vetorAuxiliar;
+
 
 int menu();
 
-void mostraLista(node *lst);
+void mostraLista(contato *lst);
 
-node *criaLista(node *inc, int n);
+void montaVetorOrdenado(vetorAuxiliar *vetorAux[], contatoVetor *vetorOrdenado[], int n);
 
-node *radixSort(node *inc, int n);
+contato *criaLista(contato *inc, int n);
 
-contatoVetor *radixSortVetor(contatoVetor *vet[], int n);
+//contato *radixSort(contato *inc, int n);
+
+void radixSortVetor(vetorAuxiliar *vet[], int n);
 
 void mostraVetor(contatoVetor *prnt[], int n);
 
-//char *criaFone();
+void mostraVetorAux(vetorAuxiliar *prnt[], int n);
+
+char *criaFone();
 
 void *criaVetor(contatoVetor *vetor[], int n);
+
+void getVetorAuxiliar(contatoVetor *vetor[], vetorAuxiliar *vetorAux[], int n);
+
+int soNumeros(char * string);
