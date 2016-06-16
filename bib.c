@@ -239,18 +239,14 @@ void merge(vetorAuxiliar *vet[], int primeira, int meio, int ultima) {
         strcpy(vetB[k++]->fone, vet[j++]->fone);
     }
     for(i=primeira; i<=ultima; i++) {
-//        vetB[i] = (vetorAuxiliar *)malloc(sizeof(vetorAuxiliar));
         vet[i]->nome = vetB[i]->nome;
         strcpy(vet[i]->fone, vetB[i]->fone);
     }
-//    free(vetB);
 }
 
 
 void mergeSort(vetorAuxiliar *vet[], int primeira, int ultima) {
     int meio;
-    printf("primeira: %d\n", primeira);
-    printf("ultima: %d\n", ultima);
     if(primeira<ultima){
         meio = (primeira+ultima)/2;
         mergeSort(vet, primeira, meio);

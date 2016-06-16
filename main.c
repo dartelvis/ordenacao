@@ -17,7 +17,6 @@ int main()
     time_t tempoInicio, tempoFim;
     srand(time(NULL));
 
-
     do {
         opcao = menu();
         switch (opcao) {
